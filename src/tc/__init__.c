@@ -33,6 +33,7 @@ typedef struct tc_win_value
 /* TC APIs. */
 static const tc_api_t* s_api[] = {
     &tc_api_shell_execute,
+    &tc_api_split_path,
 };
 
 static void _luaopen_tc_api(lua_State* L, int idx)
@@ -105,6 +106,19 @@ int tc_raise_last_error(lua_State* L)
     LocalFree(lpMsgBuf);
 
     return lua_error(L);
+}
+
+int tc_raise_error(lua_State* L, int errcode)
+{
+    const char* code = "Unknown error";
+    switch(errcode)
+    {
+    case ERANGE: code = "Result too large"; break;
+    case EINVAL: code = "Invalid argument"; break;
+    default: break;
+    }
+
+    return luaL_error(L, "%s (%d).", code, errcode);
 }
 
 const char* tc_wide_to_utf8(lua_State* L, const WCHAR* str)

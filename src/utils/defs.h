@@ -8,4 +8,8 @@
  */
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
 
+#if defined(_WIN32)
+#   define strdup(s) _strdup(s)
+#endif
+
 #endif

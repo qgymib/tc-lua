@@ -20,6 +20,7 @@ add_executable(${PROJECT_NAME}
     src/main.c
     src/tc/__init__.c
     src/tc/ShellExecute.c
+    src/tc/SplitPath.c
 )
 
 target_include_directories(${PROJECT_NAME}

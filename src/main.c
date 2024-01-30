@@ -3,7 +3,7 @@
 
 typedef struct tc_ctx
 {
-    lua_State* L;	/**< Lua VM. */
+    lua_State* L;   /**< Lua VM. */
 } tc_ctx_t;
 
 /**
@@ -47,30 +47,6 @@ static int _msg_handler(lua_State* L)
 }
 
 /**
- * @brief Get filename from path.
- * @param[in] file  Full file path.
- * @return          File name.
- */
-static const char* _filename(const char* file)
-{
-    const char* pos = file;
-
-    if (file == NULL)
-    {
-        return NULL;
-    }
-
-    for (; *file; ++file)
-    {
-        if (*file == '\\' || *file == '/')
-        {
-            pos = file + 1;
-        }
-    }
-    return pos;
-}
-
-/**
  * @brief Handle command line arguments.
  * @param[in] L     Lua VM.
  * @return          Always 1, the path of script.
@@ -82,7 +58,12 @@ static int _handle_cmd_args(lua_State* L)
     if (argc < 2)
     {
         const char* prog_name = argv != NULL ? argv[0] : "tc";
-        prog_name = _filename(prog_name);
+
+        lua_pushcfunction(L, tc_api_split_path.func);
+        lua_pushstring(L, prog_name);
+        lua_call(L, 1, 4);
+
+        prog_name = lua_tostring(L, -2);
         printf("%s usage:\n"
             "  %s <file> [options]\n", prog_name, prog_name);
 

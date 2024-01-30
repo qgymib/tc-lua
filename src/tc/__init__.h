@@ -32,6 +32,7 @@ typedef struct tc_api
 } tc_api_t;
 
 extern const tc_api_t tc_api_shell_execute;
+extern const tc_api_t tc_api_split_path;
 
 /**
  * @brief Open Lua module.
@@ -41,11 +42,19 @@ extern const tc_api_t tc_api_shell_execute;
 int luaopen_tc(lua_State* L);
 
 /**
- * @brief Raise last error to Lua stack.
+ * @brief Raise GetLastError() to Lua stack.
  * @param[in] L     Lua VM.
  * @return          This function does not return.
  */
 int tc_raise_last_error(lua_State* L);
+
+/**
+ * @brief Raise POSIX \p errcode to Lua stack.
+ * @param[in] L         Lua VM.
+ * @param[in] errcode   POSIX error code.
+ * @return              This function does not return.
+ */
+int tc_raise_error(lua_State* L, int errcode);
 
 /**
  * @brief Maps a UTF-16 (wide character) string to a new character string, push the
