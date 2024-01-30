@@ -60,6 +60,8 @@ int tc_raise_error(lua_State* L, int errcode);
  * @brief Maps a UTF-16 (wide character) string to a new character string, push the
  *   result on top of stack, and return it's address.
  * 
+ * If \p str is NULL, push nil on top of stack and return NULL.
+ * 
  * @param[in] str   Wide character string.
  * @return          UTF-8 string. Don't free() it, as Lua take care of
  *                  the life cycle.
@@ -69,6 +71,8 @@ const char* tc_wide_to_utf8(lua_State* L, const WCHAR* str);
 /**
  * @brief Maps a character string to a UTF-16 (wide character) string, push the
  *   result on top of stack, and return it's address.
+ * 
+ * If \p str is NULL, push nil on top of stack and return NULL.
  * 
  * @param[in] str   UTF-8 string.
  * @return          Wide character string. Don't free() it, as Lua take care of

@@ -123,11 +123,17 @@ int tc_raise_error(lua_State* L, int errcode)
 
 const char* tc_wide_to_utf8(lua_State* L, const WCHAR* str)
 {
+    if (str == NULL)
+    {
+        lua_pushnil(L);
+        return NULL;
+    }
+
     int utf8_sz = WideCharToMultiByte(CP_UTF8, 0, str, -1, NULL, 0, NULL, NULL);
     char* utf8 = malloc(utf8_sz + 1);
     if (utf8 == NULL)
     {
-        return NULL;
+        abort();
     }
 
     int ret = WideCharToMultiByte(CP_UTF8, 0, str, -1, utf8, utf8_sz, NULL, NULL);
@@ -142,6 +148,12 @@ const char* tc_wide_to_utf8(lua_State* L, const WCHAR* str)
 
 const WCHAR* tc_utf8_to_wide(lua_State* L, const char* str)
 {
+    if (str == NULL)
+    {
+        lua_pushnil(L);
+        return NULL;
+    }
+
     int multi_byte_sz = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
     size_t buf_sz = multi_byte_sz * sizeof(WCHAR);
 

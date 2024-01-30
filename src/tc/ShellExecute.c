@@ -8,8 +8,8 @@ static int _shell_execute_2(lua_State* L)
 
     const char* lpOperation = luaL_checkstring(L, 1);
     const char* lpFile = luaL_checkstring(L, 2);
-    const char* lpParameters = luaL_checkstring(L, 3);
-    const char* lpDirectory = luaL_checkstring(L, 4);
+    const char* lpParameters = luaL_optstring(L, 3, NULL);
+    const char* lpDirectory = luaL_optstring(L, 4, NULL);
     int nShowCmd = (int)luaL_checkinteger(L, 5);
 
     const WCHAR* lpOperationW = tc_utf8_to_wide(L, lpOperation);
